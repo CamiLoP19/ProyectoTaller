@@ -1,0 +1,59 @@
+﻿<Window x:Class="Proyecto2.UsuarioWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Proyecto2"
+        mc:Ignorable="d"
+          Title="Panel del Usuario" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Sección para solicitar servicio -->
+        <GroupBox Header="Solicitar Servicio">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Descripción del Servicio:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtDescripcionServicio" Grid.Row="0" Grid.Column="1" Margin="5,0"/>
+
+                <Label Content="Fecha del Servicio:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <DatePicker x:Name="dpFechaServicio" Grid.Row="1" Grid.Column="1" Margin="5,0"/>
+
+                <Button Content="Generar Servicio" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Width="150" Click="BtnGenerarServicio_Click" Margin="10,0,0,0"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- DataGrid para mostrar las facturas -->
+        <DataGrid x:Name="dgFacturas" Grid.Row="1" Margin="0,10,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Factura N°" Binding="{Binding Id}" Width="100"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="150"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="100"/>
+                <DataGridTextColumn Header="Pagada" Binding="{Binding Pagada}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Botones -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Ver Detalles" Width="100" Click="BtnVerDetalles_Click"/>
+            <Button Content="Abonar a la Factura" Width="130" Margin="10,0,0,0" Click="BtnAbonarFactura_Click"/>
+            <Button Content="Generar PDF" Width="120" Margin="10,0,0,0" Click="BtnDescargarPDF_Click"/>
+            <Button Content="Cerar Cesion" Width="100" Margin="10,0,0,0" Click="BtnCerrarSesion_Click"/>
+
+
+        </StackPanel>
+    </Grid>
+</Window>
