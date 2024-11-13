@@ -40,7 +40,7 @@
             </TabItem>
 
             <!-- Pestaña Productos -->
-            <TabItem Header="Productos">
+            <TabItem Header="Productos" HorizontalAlignment="Right" Margin="0,-2,-2,0" Width="69">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

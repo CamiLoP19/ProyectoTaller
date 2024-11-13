@@ -19,20 +19,34 @@ namespace BLL
 
         public string RegistrarUsuario(Usuario usuario)
         {
-            // Aquí puedes agregar validaciones o lógica de negocio adicional
             if (usuario == null)
                 return "El usuario no puede ser nulo.";
 
             if (string.IsNullOrEmpty(usuario.NombreUsuario) || string.IsNullOrEmpty(usuario.Contraseña))
                 return "El nombre de usuario y la contraseña son obligatorios.";
 
-            // Verificar si el nombre de usuario ya existe
-            var usuariosExistentes = usuarioRepository.ObtenerTodos();
-            if (usuariosExistentes.Exists(u => u.NombreUsuario == usuario.NombreUsuario))
+            if (usuarioRepository.ExisteUsuarioPorNombreUsuario(usuario.NombreUsuario))
                 return "El nombre de usuario ya existe.";
 
-            return usuarioRepository.Insertar(usuario);
+            try
+            {
+                int idUsuario = usuarioRepository.Insertar(usuario);
+                if (idUsuario > 0)
+                {
+                    return "Usuario registrado exitosamente.";
+                }
+                else
+                {
+                    return "No se pudo registrar el usuario.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Error al registrar el usuario: {ex.Message}";
+            }
         }
+
+
 
         public Usuario IniciarSesion(string nombreUsuario, string contraseña)
         {

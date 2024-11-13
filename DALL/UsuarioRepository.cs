@@ -17,26 +17,39 @@ namespace DALL
             _connection = new SqlConnection(cadenaConexion);
         }
 
-        public string Insertar(Usuario usuario)
+        public int Insertar(Usuario usuario)
         {
-            string ssql = "INSERT INTO Usuarios (NombreUsuario, Contraseña, Rol, CorreoElectronico) " +
-                          "VALUES (@NombreUsuario, @Contraseña, @Rol, @CorreoElectronico)";
+            try
+            {
+                string ssql = "INSERT INTO Usuarios (NombreUsuario, Contraseña, Rol, CorreoElectronico) " +
+                              "VALUES (@NombreUsuario, @Contraseña, @Rol, @CorreoElectronico); SELECT SCOPE_IDENTITY();";
 
-            SqlCommand cmd = new SqlCommand(ssql, _connection);
-            cmd.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
-            cmd.Parameters.AddWithValue("@Contraseña", usuario.Contraseña);
-            cmd.Parameters.AddWithValue("@Rol", usuario.Rol.ToString());
-            cmd.Parameters.AddWithValue("@CorreoElectronico", usuario.CorreoElectronico);
+                SqlCommand cmd = new SqlCommand(ssql, _connection);
+                cmd.Parameters.AddWithValue("@NombreUsuario", usuario.NombreUsuario);
+                cmd.Parameters.AddWithValue("@Contraseña", usuario.Contraseña);
+                cmd.Parameters.AddWithValue("@Rol", usuario.Rol);
+                cmd.Parameters.AddWithValue("@CorreoElectronico", usuario.CorreoElectronico);
 
-            _connection.Open();
-            int filasAfectadas = cmd.ExecuteNonQuery();
-            _connection.Close();
+                _connection.Open();
+                int idUsuario = Convert.ToInt32(cmd.ExecuteScalar());
+                _connection.Close();
 
-            if (filasAfectadas > 0)
-                return $"Se agregó el usuario {usuario.NombreUsuario}";
-            else
-                return "No se pudo agregar el usuario";
+                return idUsuario;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627) // Violación de restricción única
+                {
+                    throw new Exception("El nombre de usuario o correo electrónico ya están en uso.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
+
+
 
         public Usuario ObtenerPorId(int id)
         {
@@ -69,6 +82,32 @@ namespace DALL
             }
             _connection.Close();
             return usuarios;
+        }
+
+        public bool ExisteUsuarioPorCorreo(string correo)
+        {
+            string ssql = "SELECT COUNT(*) FROM Usuarios WHERE CorreoElectronico = @CorreoElectronico";
+            SqlCommand cmd = new SqlCommand(ssql, _connection);
+            cmd.Parameters.AddWithValue("@CorreoElectronico", correo);
+
+            _connection.Open();
+            int count = (int)cmd.ExecuteScalar();
+            _connection.Close();
+
+            return count > 0;
+        }
+
+        public bool ExisteUsuarioPorNombreUsuario(string nombreUsuario)
+        {
+            string ssql = "SELECT COUNT(*) FROM Usuarios WHERE NombreUsuario = @NombreUsuario";
+            SqlCommand cmd = new SqlCommand(ssql, _connection);
+            cmd.Parameters.AddWithValue("@NombreUsuario", nombreUsuario);
+
+            _connection.Open();
+            int count = (int)cmd.ExecuteScalar();
+            _connection.Close();
+
+            return count > 0;
         }
 
         private Usuario Mapper(SqlDataReader reader)

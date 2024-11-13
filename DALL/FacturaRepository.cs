@@ -121,9 +121,25 @@ namespace DALL
         // Implementa métodos para Actualizar y Eliminar si es necesario
         public string AbonarFactura(int idFactura, decimal monto)
         {
+            // Verificar si la factura ya está pagada
+            string ssqlVerificar = "SELECT Pagada FROM Facturas WHERE Id = @IdFactura";
+            SqlCommand cmdVerificar = new SqlCommand(ssqlVerificar, _connection);
+            cmdVerificar.Parameters.AddWithValue("@IdFactura", idFactura);
+
+            _connection.Open();
+            bool pagada = (bool)cmdVerificar.ExecuteScalar();
+            _connection.Close();
+
+            if (pagada)
+            {
+                return "La factura ya está pagada. No se puede realizar más abonos.";
+            }
+
+            // Proceder con el abono
             string ssql = @"
     INSERT INTO PagosFactura (IdFactura, Monto, FechaPago)
     VALUES (@IdFactura, @Monto, GETDATE());
+
     DECLARE @Total DECIMAL(18,2) = (SELECT Total FROM Facturas WHERE Id = @IdFactura);
     DECLARE @TotalPagado DECIMAL(18,2) = (SELECT SUM(Monto) FROM PagosFactura WHERE IdFactura = @IdFactura);
 
@@ -131,9 +147,12 @@ namespace DALL
     BEGIN
         UPDATE Facturas SET Pagada = 1 WHERE Id = @IdFactura;
 
-        -- Registrar la ganancia
-        INSERT INTO Ganancias (Fecha, Monto)
-        VALUES (GETDATE(), @Total);
+        -- Registrar la ganancia si no existe
+        IF NOT EXISTS (SELECT 1 FROM Ganancias WHERE IdFactura = @IdFactura)
+        BEGIN
+            INSERT INTO Ganancias (IdFactura, Fecha, Monto)
+            VALUES (@IdFactura, GETDATE(), @Total);
+        END
     END
     ";
 
@@ -150,6 +169,8 @@ namespace DALL
             else
                 return "No se pudo registrar el abono.";
         }
+
+
 
 
 
