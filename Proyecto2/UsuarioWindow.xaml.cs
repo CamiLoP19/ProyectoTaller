@@ -111,7 +111,7 @@ namespace Proyecto2
                 {
                     decimal montoAbonar = abonarWindow.MontoAbonar;
 
-                    // Lógica para registrar el abono
+                    // registrar el abono
                     string resultado = facturaService.AbonarFactura(facturaSeleccionada.Id, montoAbonar);
                     MessageBox.Show(resultado, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
 

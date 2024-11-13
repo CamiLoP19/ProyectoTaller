@@ -95,8 +95,7 @@ namespace Proyecto2
             if (productoSeleccionado != null)
             {
                 // Pedir la cantidad
-                int cantidad = 1; // Puedes implementar una ventana para solicitar la cantidad
-
+                int cantidad = 1;
                 if (cantidad <= 0 || cantidad > productoSeleccionado.Stock)
                 {
                     MessageBox.Show("Cantidad inválida o excede el stock disponible.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -143,7 +142,6 @@ namespace Proyecto2
 
             if (idCliente == 0)
             {
-                // Ya se muestra un mensaje de error dentro de ObtenerIdClienteDeDetalles
                 return;
             }
 

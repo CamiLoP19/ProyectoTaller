@@ -124,8 +124,6 @@ namespace DALL
             string ssql = @"
     INSERT INTO PagosFactura (IdFactura, Monto, FechaPago)
     VALUES (@IdFactura, @Monto, GETDATE());
-
-    -- Verificar si la factura ya está pagada
     DECLARE @Total DECIMAL(18,2) = (SELECT Total FROM Facturas WHERE Id = @IdFactura);
     DECLARE @TotalPagado DECIMAL(18,2) = (SELECT SUM(Monto) FROM PagosFactura WHERE IdFactura = @IdFactura);
 

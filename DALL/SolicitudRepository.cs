@@ -120,9 +120,7 @@ namespace DALL
 
             try
             {
-                _connection.Open();
-                Console.WriteLine($"Ejecutando consulta: {ssql} con Id = {id}");
-    
+                _connection.Open();    
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {

@@ -52,6 +52,7 @@ namespace Proyecto2
 
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)
         {
+
             empleado.NombreUsuario = txtNombreUsuario.Text;
             if (!string.IsNullOrEmpty(txtContraseña.Password))
             {
