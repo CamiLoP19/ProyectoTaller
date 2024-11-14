@@ -12,38 +12,46 @@ namespace DALL
     {
         private readonly SqlConnection _connection;
         string cadenaConexion = "Server=.\\SQLEXPRESS;Database=TallerBicicletas;Trusted_Connection=True;";
+        private readonly UsuarioRepository usuarioRepository;
+
         public EmpleadoRepository()
         {
             _connection = new SqlConnection(cadenaConexion);
+            usuarioRepository = new UsuarioRepository();
+
         }
 
         public string Insertar(Empleado empleado)
         {
-            string ssql = @"
-        INSERT INTO Usuarios (NombreUsuario, Contraseña, Rol, CorreoElectronico)
-        VALUES (@NombreUsuario, @Contraseña, @Rol, @CorreoElectronico);
+            try
+            {
+                string ssql = "INSERT INTO Empleados (Id, NombreCompleto, PorcentajeComision) VALUES (@Id, @NombreCompleto, @PorcentajeComision)";
+                SqlCommand cmd = new SqlCommand(ssql, _connection);
+                cmd.Parameters.AddWithValue("@Id", empleado.Id);
+                cmd.Parameters.AddWithValue("@NombreCompleto", empleado.NombreCompleto);
+                cmd.Parameters.AddWithValue("@PorcentajeComision", empleado.PorcentajeComision);
 
-        INSERT INTO Empleados (Id, NombreCompleto, PorcentajeComision)
-        VALUES (SCOPE_IDENTITY(), @NombreCompleto, @PorcentajeComision);
-    ";
+                _connection.Open();
+                cmd.ExecuteNonQuery();
+                _connection.Close();
 
-            SqlCommand cmd = new SqlCommand(ssql, _connection);
-            cmd.Parameters.AddWithValue("@NombreUsuario", empleado.NombreUsuario);
-            cmd.Parameters.AddWithValue("@Contraseña", empleado.Contraseña);
-            cmd.Parameters.AddWithValue("@Rol", empleado.Rol.ToString());
-            cmd.Parameters.AddWithValue("@CorreoElectronico", empleado.CorreoElectronico);
-            cmd.Parameters.AddWithValue("@NombreCompleto", empleado.NombreCompleto);
-            cmd.Parameters.AddWithValue("@PorcentajeComision", empleado.PorcentajeComision);
-
-            _connection.Open();
-            int filasAfectadas = cmd.ExecuteNonQuery();
-            _connection.Close();
-
-            if (filasAfectadas > 0)
-                return $"Se agregó el empleado {empleado.NombreCompleto}";
-            else
-                return "No se pudo agregar el empleado";
+                return "Empleado registrado exitosamente.";
+            }
+            catch (SqlException ex)
+            {
+                _connection.Close();
+                if (ex.Number == 2627) // Violación de restricción única
+                {
+                    return "Ya existe un empleado con ese nombre completo.";
+                }
+                else
+                {
+                    return $"Error al registrar el empleado: {ex.Message}";
+                }
+            }
         }
+
+
 
         public Empleado ObtenerPorId(int id)
         {
@@ -106,33 +114,34 @@ namespace DALL
 
         public string Actualizar(Empleado empleado)
         {
-            string ssql = @"
-        UPDATE Usuarios SET 
-            Contraseña = @Contraseña, 
-            CorreoElectronico = @CorreoElectronico
-        WHERE Id = @Id;
+            try
+            {
+                // Actualizar datos en la tabla Usuarios
+                string ssqlUsuario = "UPDATE Usuarios SET Contraseña = @Contraseña, CorreoElectronico = @CorreoElectronico WHERE Id = @Id";
+                SqlCommand cmdUsuario = new SqlCommand(ssqlUsuario, _connection);
+                cmdUsuario.Parameters.AddWithValue("@Id", empleado.Id);
+                cmdUsuario.Parameters.AddWithValue("@Contraseña", empleado.Contraseña);
+                cmdUsuario.Parameters.AddWithValue("@CorreoElectronico", empleado.CorreoElectronico);
 
-        UPDATE Empleados SET 
-            NombreCompleto = @NombreCompleto, 
-            PorcentajeComision = @PorcentajeComision
-        WHERE Id = @Id;
-    ";
+                // Actualizar datos en la tabla Empleados
+                string ssqlEmpleado = "UPDATE Empleados SET NombreCompleto = @NombreCompleto, PorcentajeComision = @PorcentajeComision WHERE Id = @Id";
+                SqlCommand cmdEmpleado = new SqlCommand(ssqlEmpleado, _connection);
+                cmdEmpleado.Parameters.AddWithValue("@Id", empleado.Id);
+                cmdEmpleado.Parameters.AddWithValue("@NombreCompleto", empleado.NombreCompleto);
+                cmdEmpleado.Parameters.AddWithValue("@PorcentajeComision", empleado.PorcentajeComision);
 
-            SqlCommand cmd = new SqlCommand(ssql, _connection);
-            cmd.Parameters.AddWithValue("@Id", empleado.Id);
-            cmd.Parameters.AddWithValue("@Contraseña", empleado.Contraseña ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@CorreoElectronico", empleado.CorreoElectronico);
-            cmd.Parameters.AddWithValue("@NombreCompleto", empleado.NombreCompleto);
-            cmd.Parameters.AddWithValue("@PorcentajeComision", empleado.PorcentajeComision);
+                _connection.Open();
+                cmdUsuario.ExecuteNonQuery();
+                cmdEmpleado.ExecuteNonQuery();
+                _connection.Close();
 
-            _connection.Open();
-            int filasAfectadas = cmd.ExecuteNonQuery();
-            _connection.Close();
-
-            if (filasAfectadas > 0)
-                return $"Se actualizó el empleado {empleado.NombreCompleto}";
-            else
-                return "No se pudo actualizar el empleado";
+                return "Empleado actualizado exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                _connection.Close();
+                return $"Error al actualizar el empleado: {ex.Message}";
+            }
         }
 
         public string Eliminar(int id)
@@ -153,6 +162,18 @@ namespace DALL
                 return "Empleado eliminado correctamente";
             else
                 return "No se pudo eliminar el empleado";
+        }
+        public bool ExisteEmpleadoPorNombreCompleto(string nombreCompleto)
+        {
+            string ssql = "SELECT COUNT(*) FROM Empleados WHERE NombreCompleto = @NombreCompleto";
+            SqlCommand cmd = new SqlCommand(ssql, _connection);
+            cmd.Parameters.AddWithValue("@NombreCompleto", nombreCompleto);
+
+            _connection.Open();
+            int count = (int)cmd.ExecuteScalar();
+            _connection.Close();
+
+            return count > 0;
         }
 
 

@@ -53,15 +53,21 @@ namespace Proyecto2
         private void BtnGuardar_Click(object sender, RoutedEventArgs e)
         {
 
-            empleado.NombreUsuario = txtNombreUsuario.Text;
+            empleado.NombreUsuario = txtNombreUsuario.Text.Trim();
             if (!string.IsNullOrEmpty(txtContraseña.Password))
             {
                 empleado.Contraseña = txtContraseña.Password;
             }
-            empleado.NombreCompleto = txtNombreCompleto.Text;
-            empleado.CorreoElectronico = txtCorreoElectronico.Text;
+            else if (esNuevo)
+            {
+                MessageBox.Show("La contraseña es obligatoria.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            if (decimal.TryParse(txtPorcentajeComision.Text, out decimal porcentaje))
+            empleado.NombreCompleto = txtNombreCompleto.Text.Trim();
+            empleado.CorreoElectronico = txtCorreoElectronico.Text.Trim();
+
+            if (decimal.TryParse(txtPorcentajeComision.Text.Trim(), out decimal porcentaje))
             {
                 empleado.PorcentajeComision = porcentaje;
             }
@@ -84,8 +90,12 @@ namespace Proyecto2
             }
 
             MessageBox.Show(mensaje, "Información", MessageBoxButton.OK, MessageBoxImage.Information);
-            DialogResult = true;
-            Close();
+
+            if (mensaje.Contains("exitosamente"))
+            {
+                DialogResult = true;
+                Close();
+            }
         }
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
