@@ -20,12 +20,96 @@
         </StackPanel>
 
         <!-- DataGrid para los detalles -->
-        <DataGrid x:Name="dgDetallesFactura" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,10,0,10">
+        <Label Content="Descripcion" FontSize="12" FontWeight="Bold" Margin="0,20,0,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Cantidad" FontSize="12" FontWeight="Bold" Margin="155,20,10,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Precio Unitario" FontSize="12" FontWeight="Bold" Margin="245,20,-12,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Subtotal" FontSize="12" FontWeight="Bold" Margin="425,20,25,0" Foreground="Black" Grid.Row="1"/>
+        
+        <DataGrid x:Name="dgDetallesFactura" Grid.Row="1" Margin="0,72,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" BorderThickness="0"
+                  Background="White" 
+                  RowBackground="{DynamicResource PrimaryColor}" GridLinesVisibility="None" 
+                  HeadersVisibility="None" CanUserReorderColumns="False" CanUserAddRows="False">
+
+            <!-- Estilos de DataGrid -->
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="Background" Value="#E5E5E5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                        BorderThickness="0" CornerRadius="10" Margin="0 0 -20 0">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="DarkBlue"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <!-- Definición de columnas del DataGrid -->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
-                <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" Width="100"/>
-                <DataGridTextColumn Header="Precio Unitario" Binding="{Binding PrecioUnitario, StringFormat=C}" Width="120"/>
-                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat=C}" Width="120"/>
+                <!-- Columnas personalizadas del DataGrid -->
+                <DataGridTextColumn Header="ID" Binding="{Binding Descripcion}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Usuario" Binding="{Binding Cantidad}" Width="90">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding PrecioUnitario, StringFormat=C}" Width="180">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Correo" Binding="{Binding Subtotal, StringFormat=C}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

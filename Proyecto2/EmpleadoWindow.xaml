@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto2"
         mc:Ignorable="d"
-     Title="Panel del Empleado" Height="600" Width="800">
+     Title="Panel del Empleado" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,6 +16,68 @@
         <!-- TabControl con pestañas de Servicios y Productos -->
         <TabControl x:Name="tabControl" Grid.Row="0">
             <TabItem Header="Servicios">
+                <TabItem.Resources>
+                    <!-- Estilo personalizado para el TabItem -->
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="2,2,2,0"
+                            CornerRadius="10,10,0,0" 
+                            Padding="5" 
+                            Margin="2">
+                                        <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    ContentSource="Header"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <!-- Establecer el color de fondo y de borde -->
+                        <Setter Property="Background" Value="LightBlue"/>
+                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="BorderThickness" Value="2"/>
+
+                        <Style.Triggers>
+                            <!-- Cambios de estilo cuando el TabItem está seleccionado -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="DarkBlue"/>
+                                <Setter Property="BorderBrush" Value="DarkBlue"/>
+                                <Setter Property="BorderThickness" Value="2,2,2,0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border 
+                                                    Background="{TemplateBinding Background}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                    BorderThickness="2,2,2,0"
+                                                    CornerRadius="10,10,0,0" 
+                                                    Padding="5" 
+                                                    Margin="0,0,4,-0.5">
+                                                <ContentPresenter 
+                                                        HorizontalAlignment="Center" 
+                                                        VerticalAlignment="Center" 
+                                                        ContentSource="Header"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!-- Cambios de estilo cuando el TabItem no está seleccionado -->
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="BorderBrush" Value="LightBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Resources>
+
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -23,20 +85,195 @@
                     </Grid.RowDefinitions>
 
                     <!-- DataGrid para mostrar los servicios disponibles -->
-                    <DataGrid x:Name="dgServiciosDisponibles" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                    <Label Content="ID" FontSize="15" FontWeight="Bold" Margin="0,0,0,0" Foreground="Black"/>
+                    <Label Content="Nombre Cliente" FontSize="15" FontWeight="Bold" Margin="85,0,10,0" Foreground="Black"/>
+                    <Label Content="Descripcion" FontSize="15" FontWeight="Bold" Margin="245,0,-12,0" Foreground="Black"/>
+                    <Label Content="Fecha Servicio" FontSize="15" FontWeight="Bold" Margin="495,0,25,0" Foreground="Black"/>
+
+                    <DataGrid x:Name="dgServiciosDisponibles" Margin="0,30,0,35" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" BorderThickness="0"
+                              Background="White" 
+                              RowBackground="{DynamicResource PrimaryColor}" GridLinesVisibility="None" 
+                              HeadersVisibility="None" CanUserReorderColumns="False" CanUserAddRows="False" Grid.RowSpan="2">
+
+                        <!-- Estilos de DataGrid -->
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Margin" Value="0 8 0 0"/>
+                                <Setter Property="Background" Value="#E5E5E5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                                                    BorderThickness="0" CornerRadius="10" Margin="0 0 -20 0">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="DarkBlue"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <!-- Definición de columnas del DataGrid -->
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                            <DataGridTextColumn Header="Cliente" Binding="{Binding NombreCliente}" Width="150"/>
-                            <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
-                            <DataGridTextColumn Header="Fecha Solicitada" Binding="{Binding FechaServicio}" Width="120"/>
+                            <!-- Columnas personalizadas del DataGrid -->
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Usuario" Binding="{Binding NombreCliente}" Width="160">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Descripcion}" Width="250">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Correo" Binding="{Binding FechaServicio}" Width="230">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <!-- Botón para tomar servicio -->
-                    <Button Content="Tomar Servicio" Grid.Row="1" Width="120" HorizontalAlignment="Right" Margin="0,10,0,0" Click="BtnTomarServicio_Click" Height="20" VerticalAlignment="Top"/>
+                    <Button Content="Tomar Servicio" Grid.Row="1" Width="120" HorizontalAlignment="Right" Margin="0,10,0,0" Click="BtnTomarServicio_Click" Height="30"
+                            FontSize="13"
+                            FontFamily="Montserrat"
+                            FontWeight="Bold">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="DarkBlue"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="120" Height="30"
+                    CornerRadius="12"
+                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Productos" HorizontalAlignment="Left" Margin="-2,-2,0,0" Width="70">
+
+            <TabItem Header="Productos" HorizontalAlignment="Left" Margin="-2,-2,0,0" Width="80">
+                <TabItem.Resources>
+                    <!-- Estilo personalizado para el TabItem -->
+                    <Style TargetType="TabItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="2,2,2,0"
+                            CornerRadius="10,10,0,0" 
+                            Padding="5" 
+                            Margin="2">
+                                        <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    ContentSource="Header"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <!-- Establecer el color de fondo y de borde -->
+                        <Setter Property="Background" Value="LightBlue"/>
+                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="BorderThickness" Value="2"/>
+
+                        <Style.Triggers>
+                            <!-- Cambios de estilo cuando el TabItem está seleccionado -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="DarkBlue"/>
+                                <Setter Property="BorderBrush" Value="DarkBlue"/>
+                                <Setter Property="BorderThickness" Value="2,2,2,0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Border 
+                                                    Background="{TemplateBinding Background}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                    BorderThickness="2,2,2,0"
+                                                    CornerRadius="10,10,0,0" 
+                                                    Padding="5" 
+                                                    Margin="4,0,0,-0.5">
+                                                <ContentPresenter 
+                                                            HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center" 
+                                                            ContentSource="Header"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!-- Cambios de estilo cuando el TabItem no está seleccionado -->
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="BorderBrush" Value="LightBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Resources>
+
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -44,36 +281,292 @@
                     </Grid.RowDefinitions>
 
                     <!-- DataGrid para mostrar los productos -->
-                    <DataGrid x:Name="dgProductosDisponibles" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+
+                    <Label Content="ID" FontSize="15" FontWeight="Bold" Margin="0,0,0,0" Foreground="Black"/>
+                    <Label Content="Nombre" FontSize="15" FontWeight="Bold" Margin="85,0,10,0" Foreground="Black"/>
+                    <Label Content="Precio" FontSize="15" FontWeight="Bold" Margin="245,0,-12,0" Foreground="Black"/>
+                    <Label Content="Stock" FontSize="15" FontWeight="Bold" Margin="495,0,25,0" Foreground="Black"/>
+
+                    <DataGrid x:Name="dgProductosDisponibles" Margin="0,31,0,35" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" BorderThickness="0"
+                              Background="White" 
+                              RowBackground="{DynamicResource PrimaryColor}" GridLinesVisibility="None" 
+                              HeadersVisibility="None" CanUserReorderColumns="False" CanUserAddRows="False" Grid.RowSpan="2">
+
+                        <!-- Estilos de DataGrid -->
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Margin" Value="0 8 0 0"/>
+                                <Setter Property="Background" Value="#E5E5E5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                                                    BorderThickness="0" CornerRadius="10" Margin="0 0 -20 0">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="DarkBlue"/>
+                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <!-- Definición de columnas del DataGrid -->
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
-                            <DataGridTextColumn Header="Precio" Binding="{Binding Precio, StringFormat=C}" Width="100"/>
-                            <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="80"/>
+                            <!-- Columnas personalizadas del DataGrid -->
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Usuario" Binding="{Binding Nombre}" Width="160">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Precio}" Width="250">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Correo" Binding="{Binding Stock}" Width="230">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <!-- Botón para añadir producto a la factura -->
-                    <Button Content="Añadir a la Factura" Grid.Row="1" Width="150" HorizontalAlignment="Right" Margin="0,10,0,0" Click="BtnAñadirProducto_Click"/>
+                    <Button Content="Añadir a la Factura" Grid.Row="1" Height="30" Click="BtnAñadirProducto_Click" HorizontalAlignment="Right"
+                            FontSize="13"
+                            FontFamily="Montserrat"
+                            FontWeight="Bold"
+                            Width="180"
+                            Margin="0 20 0 0">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="DarkBlue"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="180" Height="30"
+                                        CornerRadius="12"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Grid>
             </TabItem>
 
         </TabControl>
 
         <!-- DataGrid para mostrar los detalles de la factura -->
-        <DataGrid x:Name="dgDetallesFactura" Grid.Row="1"  IsReadOnly="False" AutoGenerateColumns="False" Margin="0,10,0,10">
+
+        <Label Content="Descripcion" FontSize="15" FontWeight="Bold" Margin="0,20,0,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Cantidad" FontSize="15" FontWeight="Bold" Margin="225,20,10,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Precio Unitario" FontSize="15" FontWeight="Bold" Margin="355,20,-12,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Subtotal" FontSize="15" FontWeight="Bold" Margin="565,20,25,0" Foreground="Black" Grid.Row="1"/>
+
+        <DataGrid x:Name="dgDetallesFactura" Grid.Row="1" Margin="0,53,0,25" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" BorderThickness="0"
+          Background="White" 
+          RowBackground="{DynamicResource PrimaryColor}" GridLinesVisibility="None" 
+          HeadersVisibility="None" CanUserReorderColumns="False" CanUserAddRows="False">
+
+            <!-- Estilos de DataGrid -->
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="Background" Value="#E5E5E5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                                BorderThickness="0" CornerRadius="10" Margin="0 0 -20 0">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="DarkBlue"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <!-- Definición de columnas del DataGrid -->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
-                <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" Width="100"/>
-                <DataGridTextColumn Header="Precio Unitario" Binding="{Binding PrecioUnitario, StringFormat=C}" Width="120"/>
-                <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat=C}" Width="120"/>
+                <!-- Columnas personalizadas del DataGrid -->
+                <DataGridTextColumn Header="ID" Binding="{Binding Descripcion}" Width="220">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Usuario" Binding="{Binding Cantidad}" Width="130">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding PrecioUnitario, StringFormat=C}" Width="210">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Correo" Binding="{Binding Subtotal, StringFormat=C}" Width="180">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- Botones de acción -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Generar Factura" Width="120" Margin="10,0,0,0" Click="BtnGenerarFactura_Click"/>
-            <Button Content="Cerar Cesion" Width="100" Margin="10,0,0,0" Click="BtnCerrarSesion_Click"/>
+            <Button Content="Generar Factura" Width="120" Margin="10,0,0,0" Click="BtnGenerarFactura_Click"
+                    FontSize="13"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="30"
+                    CornerRadius="12"
+                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Salir" Width="120" Margin="10,0,0,0" Click="BtnCerrarSesion_Click"
+                    FontSize="13"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="30"
+                    CornerRadius="12"
+                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
         </StackPanel>
     </Grid>

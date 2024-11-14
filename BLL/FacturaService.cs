@@ -96,7 +96,8 @@ namespace BLL
             return facturaRepository.ObtenerFacturaConDetalles(idFactura);
         }
 
-        public List<FacturaConComision> ObtenerFacturasPagadasConComision() {
+        public List<FacturaConComision> ObtenerFacturasPagadasConComision()
+        {
             return facturaRepository.ObtenerFacturasPagadasConComision();
         }
         // Implementa métodos para actualizar el estado de la factura, pagos, etc.

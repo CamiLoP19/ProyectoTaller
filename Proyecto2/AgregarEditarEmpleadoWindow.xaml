@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto2"
         mc:Ignorable="d"
-         Title="Empleado" Height="350" Width="400">
+         Title="Empleado" Height="520" Width="400"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -13,26 +14,142 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <Label Content="Nombre de Usuario:"/>
-            <TextBox x:Name="txtNombreUsuario"/>
+            <Label Content="Información de usuario" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+            <Label Content="Usuario:" Margin="30,20,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtNombreUsuario"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
 
-            <Label Content="Contraseña:" Margin="0,10,0,0"/>
-            <PasswordBox x:Name="txtContraseña"/>
+            <Label Content="Contraseña:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <PasswordBox x:Name="txtContraseña"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </PasswordBox>
 
-            <Label Content="Nombre Completo:" Margin="0,10,0,0"/>
-            <TextBox x:Name="txtNombreCompleto"/>
+            <Label Content="Nombre Completo:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtNombreCompleto"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
 
-            <Label Content="Correo Electrónico:" Margin="0,10,0,0"/>
-            <TextBox x:Name="txtCorreoElectronico"/>
+            <Label Content="Correo Electrónico:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtCorreoElectronico" 
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
 
-            <Label Content="Porcentaje Comisión (%):" Margin="0,10,0,0"/>
-            <TextBox x:Name="txtPorcentajeComision"/>
+            <Label Content="Porcentaje Comisión (%):" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtPorcentajeComision" 
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
         </StackPanel>
 
         <!-- Botones -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Guardar" Width="100" Click="BtnGuardar_Click"/>
-            <Button Content="Cancelar" Width="100" Margin="10,0,0,0" Click="BtnCancelar_Click"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Content="Guardar" Height="40" Click="BtnGuardar_Click"
+                    FontSize="14"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold"
+                    Width="80"
+                    Margin="0 20 0 0">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="80" Height="40"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Content="Cancelar" Width="80" Margin="20,20,0,0" Click="BtnCancelar_Click"
+                    Height="40"
+                    FontSize="14"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DarkBlue"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="80" Height="40"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

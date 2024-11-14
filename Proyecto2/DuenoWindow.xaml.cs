@@ -20,7 +20,7 @@ namespace Proyecto2
     /// <summary>
     /// Lógica de interacción para DueñoWindow.xaml
     /// </summary>
-    public partial class DueñoWindow : Window
+    public partial class DuenoWindow : Window
     {
         private EmpleadoService empleadoService;
         private ProductoService productoService;
@@ -28,11 +28,7 @@ namespace Proyecto2
         private List<Producto> listaProductos;
         private FacturaService facturaService;
 
-       
-
-
-
-        public DueñoWindow()
+        public DuenoWindow()
         {
             InitializeComponent();
             empleadoService = new EmpleadoService();

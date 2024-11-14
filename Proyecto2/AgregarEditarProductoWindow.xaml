@@ -13,20 +13,111 @@
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <Label Content="Nombre del Producto:"/>
-            <TextBox x:Name="txtNombre"/>
+            <Label Content="Nombre del Producto:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtNombre"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
 
-            <Label Content="Precio:" Margin="0,10,0,0"/>
-            <TextBox x:Name="txtPrecio"/>
+            <Label Content="Precio:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtPrecio"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
 
-            <Label Content="Stock:" Margin="0,10,0,0"/>
-            <TextBox x:Name="txtStock"/>
+            <Label Content="Stock:" Margin="30,10,0,0" FontSize="14" FontWeight="DemiBold"/>
+            <TextBox x:Name="txtStock"
+                     FontSize="16"
+                     FontWeight="Normal"
+                     FontFamily="Montserrat"                            
+                     CaretBrush="LightGray"
+                     Background="Transparent"
+                     BorderBrush="blue"
+                     BorderThickness="0,0,0,2"
+                     Height="25"
+                     Width="295"
+                     HorizontalAlignment="Center">
+            </TextBox>
         </StackPanel>
 
         <!-- Botones -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Guardar" Width="100" Click="BtnGuardar_Click"/>
-            <Button Content="Cancelar" Width="100" Margin="10,0,0,0" Click="BtnCancelar_Click"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <Button Content="Guardar" Width="100" Click="BtnGuardar_Click"
+                    FontSize="14"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold"
+                    Margin="0 20 0 0">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="80" Height="40"
+                    CornerRadius="12"
+                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Cancelar" Width="100" Click="BtnCancelar_Click"
+                    FontSize="14"
+                    FontFamily="Montserrat"
+                    FontWeight="Bold"
+                    Margin="0 20 0 0">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBlueText}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource WhiteColor}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="80" Height="40"
+                                CornerRadius="12"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

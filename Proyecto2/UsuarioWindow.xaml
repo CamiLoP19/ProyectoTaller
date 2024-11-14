@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto2"
         mc:Ignorable="d"
-          Title="Panel del Usuario" Height="600" Width="800">
+          Title="Panel del Usuario" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="439*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Sección para solicitar servicio -->
-        <GroupBox Header="Solicitar Servicio">
-            <Grid Margin="10">
+        <GroupBox Header="Solicitar Servicio" FontWeight="Bold" Height="102" VerticalAlignment="Top" Grid.RowSpan="2">
+            <Grid Margin="10,0,10,0" Height="53">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -27,32 +27,284 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="Descripción del Servicio:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtDescripcionServicio" Grid.Row="0" Grid.Column="1" Margin="5,0"/>
+                <TextBox x:Name="txtDescripcionServicio" Grid.Row="0" Grid.Column="1"
+                         Margin="5,0"
+                         FontSize="16"
+                         FontWeight="Normal"
+                         FontFamily="Montserrat"                            
+                         CaretBrush="LightGray"
+                         Background="Transparent"
+                         BorderBrush="blue"
+                         BorderThickness="0,0,0,2"
+                         Height="25"
+                         Width="440"
+                         HorizontalAlignment="Left">
+                </TextBox>
 
                 <Label Content="Fecha del Servicio:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                <DatePicker x:Name="dpFechaServicio" Grid.Row="1" Grid.Column="1" Margin="5,0"/>
+                <DatePicker x:Name="dpFechaServicio" Grid.Row="1" Grid.Column="1" Margin="0"
+                            Background="Transparent"
+                            Height="25"
+                            Width="415"
+                            BorderBrush="DarkBlue"
+                            BorderThickness="0,0,0,2"/>
 
-                <Button Content="Generar Servicio" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Width="150" Click="BtnGenerarServicio_Click" Margin="10,0,0,0"/>
+                <Button Content="Generar Servicio" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Click="BtnGenerarServicio_Click"
+                        Cursor="Hand"
+                        FontSize="15"
+                        FontFamily="Montserrat"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Right"
+                        Margin="10, 0, 0, 0"
+                        Width="150">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="DarkBlue"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="DeepSkyBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Width="150" 
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </GroupBox>
 
         <!-- DataGrid para mostrar las facturas -->
-        <DataGrid x:Name="dgFacturas" Grid.Row="1" Margin="0,10,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+
+        <Label Content="ID" FontSize="15" FontWeight="Bold" Margin="0,20,0,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Fecha" FontSize="15" FontWeight="Bold" Margin="85,20,10,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Total" FontSize="15" FontWeight="Bold" Margin="245,20,-12,0" Foreground="Black" Grid.Row="1"/>
+        <Label Content="Pagada" FontSize="15" FontWeight="Bold" Margin="495,20,25,0" Foreground="Black" Grid.Row="1"/>
+
+
+        <DataGrid x:Name="dgFacturas" Grid.Row="1" Margin="0,72,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" BorderThickness="0"
+          Background="White" 
+          RowBackground="{DynamicResource PrimaryColor}" GridLinesVisibility="None" 
+          HeadersVisibility="None" CanUserReorderColumns="False" CanUserAddRows="False">
+
+            <!-- Estilos de DataGrid -->
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="Background" Value="#E5E5E5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                                BorderThickness="0" CornerRadius="10" Margin="0 0 -20 0">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="DarkBlue"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <!-- Definición de columnas del DataGrid -->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Factura N°" Binding="{Binding Id}" Width="100"/>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="150"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="100"/>
-                <DataGridTextColumn Header="Pagada" Binding="{Binding Pagada}" Width="100"/>
+                <!-- Columnas personalizadas del DataGrid -->
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Usuario" Binding="{Binding Fecha}" Width="160">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding Total}" Width="250">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Correo" Binding="{Binding Pagada}" Width="248">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Background" Value="{DynamicResource TertiaryBackgroundColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBlueText}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- Botones -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Ver Detalles" Width="100" Click="BtnVerDetalles_Click"/>
-            <Button Content="Abonar a la Factura" Width="130" Margin="10,0,0,0" Click="BtnAbonarFactura_Click"/>
-            <Button Content="Generar PDF" Width="120" Margin="10,0,0,0" Click="BtnDescargarPDF_Click"/>
-            <Button Content="Cerar Cesion" Width="100" Margin="10,0,0,0" Click="BtnCerrarSesion_Click"/>
+            <Button Content="Ver Detalles" Cursor="Hand" Click="BtnVerDetalles_Click"
+                    FontSize="15"
+                    FontFamily="Montserrat"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,10,0"
+                    Width="120">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
 
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="35"
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Abonar" Cursor="Hand" Click="BtnAbonarFactura_Click"
+                    FontSize="15"
+                    FontFamily="Montserrat"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Margin="0, 0, 10, 0"
+                    Width="120">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="35"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Generar PDF" Cursor="Hand" Click="BtnDescargarPDF_Click"
+                    FontSize="15"
+                    FontFamily="Montserrat"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Margin="0, 0, 20, 0"
+                    Width="120">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="35"
+                    CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Salir" Cursor="Hand" Click="BtnCerrarSesion_Click"
+                    FontSize="15"
+                    FontFamily="Montserrat"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Margin="0, 0, 10, 0"
+                    Width="120">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="DarkBlue"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="120" Height="35"
+                                CornerRadius="10"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
         </StackPanel>
     </Grid>

@@ -57,7 +57,7 @@ namespace Proyecto2
                 switch (usuario.Rol)
                 {
                     case RolUsuario.Administrador:
-                        DueñoWindow dueñoWindow = new DueñoWindow();
+                        DuenoWindow dueñoWindow = new DuenoWindow();
                         dueñoWindow.Show();
                         break;
                     case RolUsuario.Empleado:
@@ -86,9 +86,20 @@ namespace Proyecto2
             }
 
         }
+
+        private void ComboBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+                e.Handled = true;
+            }
+        }
+
     }
 
-        }
+}
 
       
        
