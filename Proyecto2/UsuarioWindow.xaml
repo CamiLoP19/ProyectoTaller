@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto2"
         mc:Ignorable="d"
-          Title="Panel del Usuario" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+          Title="Panel del Usuario" Height="600" Width="1205" WindowStartupLocation="CenterScreen"
+          WindowState="Maximized">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="95*"/>
@@ -13,51 +14,43 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Sección para solicitar servicio -->
         <GroupBox Header="Solicitar Servicio" FontWeight="Bold" Height="102" VerticalAlignment="Top" Grid.RowSpan="2">
-            <Grid Margin="10,0,10,0" Height="53">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
 
-                <Label Content="Descripción del Servicio:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtDescripcionServicio" Grid.Row="0" Grid.Column="1"
-                         Margin="5,0"
-                         FontSize="16"
-                         FontWeight="Normal"
-                         FontFamily="Montserrat"                            
-                         CaretBrush="LightGray"
-                         Background="Transparent"
-                         BorderBrush="blue"
-                         BorderThickness="0,0,0,2"
-                         Height="25"
-                         Width="440"
-                         HorizontalAlignment="Left">
+                <!-- Descripción del Servicio -->
+                <Label Content="Descripción del Servicio:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="txtDescripcionServicio"
+                 Margin="5,0"
+                 FontSize="16"
+                 FontWeight="Normal"
+                 FontFamily="Montserrat"                            
+                 CaretBrush="LightGray"
+                 Background="Transparent"
+                 BorderBrush="blue"
+                 BorderThickness="0,0,0,2"
+                 Height="25"
+                 Width="440"
+                 HorizontalAlignment="Left">
                 </TextBox>
 
-                <Label Content="Fecha del Servicio:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                <DatePicker x:Name="dpFechaServicio" Grid.Row="1" Grid.Column="1" Margin="0"
-                            Background="Transparent"
-                            Height="25"
-                            Width="415"
-                            BorderBrush="DarkBlue"
-                            BorderThickness="0,0,0,2"/>
+                <!-- Fecha del Servicio -->
+                <Label Content="Fecha del Servicio:" VerticalAlignment="Center" Margin="20,0,10,0"/>
+                <DatePicker x:Name="dpFechaServicio" Margin="0"
+                    Background="Transparent"
+                    Height="25"
+                    Width="200"
+                    BorderBrush="DarkBlue"
+                    BorderThickness="0,0,0,2"/>
 
-                <Button Content="Generar Servicio" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Click="BtnGenerarServicio_Click"
-                        Cursor="Hand"
-                        FontSize="15"
-                        FontFamily="Montserrat"
-                        Foreground="White"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Right"
-                        Margin="10, 0, 0, 0"
-                        Width="150">
+                <!-- Botón Generar Servicio -->
+                <Button Content="Generar Servicio" Click="BtnGenerarServicio_Click"
+                Cursor="Hand"
+                FontSize="15"
+                FontFamily="Montserrat"
+                Foreground="White"
+                FontWeight="Bold"
+                Margin="20, 0, 0, 0"
+                Width="150">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="DarkBlue"/>
@@ -68,20 +61,20 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border Width="150" 
-                    CornerRadius="10"
-                    Background="{TemplateBinding Background}">
+                            CornerRadius="10"
+                            Background="{TemplateBinding Background}">
                                 <ContentPresenter VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"/>
+                                          HorizontalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-            </Grid>
+            </StackPanel>
         </GroupBox>
+
 
         <!-- DataGrid para mostrar las facturas -->
 
